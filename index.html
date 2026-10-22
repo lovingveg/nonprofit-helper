@@ -42,6 +42,7 @@ section h2{font-size:clamp(1.8rem,4vw,2.5rem)}
 .tag{display:inline-block;font-size:.82rem;font-weight:600;background:var(--bg);border-radius:6px;padding:2px 8px;margin:0 6px 6px 0}
 .rate{border-left:4px solid var(--accent);padding-left:10px;font-weight:600;font-size:.9rem}
 .note{font-size:.9rem;color:var(--muted);margin-top:18px}
+.list:empty::before{content:"Nothing here yet. Check back soon.";color:var(--muted)}
 form{display:grid;gap:14px;max-width:560px}
 label{font-weight:600;display:grid;gap:4px}
 input,select,textarea{font:inherit;padding:10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
@@ -129,7 +130,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
     <label>Short description<textarea name="desc" rows="3"></textarea></label>
     <button class="btn" type="submit">Request my free consult</button>
   </form>
-  <div class="ok" id="thanks" hidden role="status"><strong>Request received.</strong> This is a demo form, so nothing was sent yet. Once the database is connected, a match will arrive by email.</div>
+  <div class="ok" id="thanks" hidden role="status"><strong>Request received.</strong> We’ll be in touch by email to match you with a helper.</div>
+  <p id="err" role="alert" hidden>Sorry, we couldn’t send your request. Please try again in a moment.</p>
 </section>
 </main>
 
@@ -169,14 +171,27 @@ function chips(id,vals,cb){var el=document.getElementById(id);var cur="All";
  function draw(){el.innerHTML="";["All"].concat(vals).forEach(function(v){var b=document.createElement("button");b.className="chip";b.type="button";b.textContent=v;b.setAttribute("aria-pressed",v===cur);b.onclick=function(){cur=v;draw();cb(v)};el.appendChild(b)})}
  draw()}
 function card(h,p,tags,extra){return '<div class="item"><h3>'+h+'</h3><p>'+p+'</p>'+(tags||"")+(extra||"")+'</div>'}
-function showRes(f){document.getElementById("resList").innerHTML=RES.filter(function(r){return f==="All"||r.c===f}).map(function(r){return card(r.t,r.d,'<span class="tag">'+r.c+'</span>')}).join("")}
+function showRes(f){document.getElementById("resList").innerHTML=RES.filter(function(r){return f==="All"||r.c===f}).map(function(r){return card(r.u?'<a href="'+r.u+'" rel="noopener">'+r.t+'</a>':r.t,r.d,'<span class="tag">'+r.c+'</span>')}).join("")}
 function showPpl(f){document.getElementById("helpList").innerHTML=PPL.filter(function(x){return f==="All"||x.s.indexOf(f)>-1}).map(function(x){return card(x.n+" ("+x.r+")",x.d,x.s.map(function(s){return '<span class="tag">'+s+'</span>'}).join(""),'<div class="rate">'+x.p+'</div>')}).join("")}
 function showNp(q){qF=q;q=q.toLowerCase();document.getElementById("npList").innerHTML=NP.filter(function(x){return (kindF==="All"||x.k===kindF)&&(x.n+x.c).toLowerCase().indexOf(q)>-1}).map(function(x){return card(x.n,x.m,'<span class="tag">'+x.c+', Utah</span>','<a href="#consult">Claim this page</a>')}).join("")||'<p>No nonprofits match that search. Try a different name or city.</p>'}
+var SB="https://btmrxymbfaozkbroklhj.supabase.co",KEY="sb_publishable_Ndhiz39j9PP7hOBSzXHdZQ_8KC30-Ie",live=false;
+function sb(path,opt){opt=opt||{};opt.headers=Object.assign({apikey:KEY},opt.headers||{});return fetch(SB+"/rest/v1/"+path,opt)}
+function get(path){return sb(path).then(function(r){if(!r.ok)throw 0;return r.json()})}
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function init(){
+if(live)document.querySelectorAll(".note").forEach(function(n){n.hidden=true});
 chips("resChips",uniq(RES.map(function(r){return r.c})),showRes);showRes("All");
 var sk=uniq([].concat.apply([],PPL.map(function(x){return x.s})));
 chips("skillChips",sk,showPpl);showPpl("All");
 showNp("");document.getElementById("npSearch").oninput=function(e){showNp(e.target.value)};
-document.getElementById("consultForm").onsubmit=function(e){e.preventDefault();this.hidden=true;document.getElementById("thanks").hidden=false};
+}
+Promise.all([get("resources?select=*&order=title"),get("helpers_public?select=*"),get("nonprofits?select=*&order=name")]).then(function(a){
+RES=a[0].map(function(r){return{t:esc(r.title),c:esc(r.category),d:esc(r.description),u:/^https?:\/\//.test(r.url||"")?esc(r.url):""}});
+PPL=a[1].map(function(h){return{n:esc(h.name),r:h.helper_type==="volunteer"?"Volunteer":"Consultant",s:(h.skills||[]).map(esc),d:esc(h.bio),p:h.hourly_rate?"$"+esc(h.hourly_rate)+" per hour":"Free"}});
+NP=a[2].map(function(n){return{n:esc(n.name),c:esc(n.city||"Utah"),k:esc(n.focus_area),m:esc(n.mission)}});
+live=true}).catch(function(){}).then(init);
+document.getElementById("consultForm").onsubmit=function(e){e.preventDefault();var f=this,d=new FormData(f);document.getElementById("err").hidden=true;
+sb("consult_requests",{method:"POST",headers:{"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({org_name:d.get("org"),email:d.get("email"),need:d.get("need"),description:d.get("desc")})}).then(function(r){if(!r.ok)throw 0;f.hidden=true;document.getElementById("thanks").hidden=false}).catch(function(){document.getElementById("err").hidden=false})};
 </script>
 </body>
 </html>
