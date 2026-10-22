@@ -71,7 +71,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 <div class="wrap">
 <header class="top">
   <a class="logo" href="#top">Nonprofit Helper</a>
-  <nav aria-label="Main"><a href="#resources">Free resources</a><a href="#help">Your helper</a><a href="#directory">Nonprofit directory</a><a href="#consult">Book a free consultation</a></nav>
+  <nav aria-label="Main"><a href="#resources">Free resources</a><a href="#help">Your helper</a><a href="#directory">Nonprofit directory</a><a href="#donors">Donor list</a><a href="#consult">Book a free consultation</a></nav>
 </header>
 
 <main id="top">
@@ -118,6 +118,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   <p class="note">Sample listings shown.</p>
 </section>
 
+<section id="donors">
+  <h2>Donor list</h2>
+  <p class="lead">Utah foundations and funders that give grants, with their focus areas and how to apply.</p>
+  <form onsubmit="return false" style="margin-bottom:20px"><label>Search<input id="fdSearch" type="search" placeholder="Name, city or giving focus"></label></form>
+  <div class="list" id="fdList"></div>
+  <p class="note">Sample listing shown.</p>
+</section>
 <div class="scene" role="img" aria-label="A winding trail with a bench facing a sunrise over the mountains"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="trl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3d6"/><stop offset="1" stop-color="#f7e3b0"/></linearGradient></defs><rect width="1000" height="120" fill="url(#trl)"/><path d="M0 80 L180 40 L320 70 L520 30 L700 66 L860 44 L1000 70 V120 H0Z" fill="#4f9aa0"/><rect y="84" width="1000" height="36" fill="#7aa86b"/><path d="M420 120 Q520 100 470 92 Q420 86 540 84 L560 84 Q470 90 520 98 Q580 106 520 120Z" fill="#efe1c0"/><g fill="#3a2a22"><rect x="700" y="90" width="30" height="4"/><rect x="702" y="94" width="3" height="6"/><rect x="725" y="94" width="3" height="6"/><rect x="700" y="82" width="30" height="3"/></g></svg></div>
 <section id="consult">
   <h2>Book a free consultation</h2>
@@ -178,17 +185,23 @@ var SB="https://btmrxymbfaozkbroklhj.supabase.co",KEY="sb_publishable_Ndhiz39j9P
 function sb(path,opt){opt=opt||{};opt.headers=Object.assign({apikey:KEY},opt.headers||{});return fetch(SB+"/rest/v1/"+path,opt)}
 function get(path){return sb(path).then(function(r){if(!r.ok)throw 0;return r.json()})}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+var FD=[{n:"Sample Utah Community Foundation",c:"Salt Lake City",f:"Education, health and basic needs",g:"$2,000 to $25,000",u:""}];
+function money(v){return "$"+Number(v).toLocaleString("en-US")}
+function rng(a,b){if(a==null&&b==null)return "";if(a!=null&&b!=null)return money(a)+" to "+money(b);return money(a!=null?a:b)}
+function showFd(q){q=q.toLowerCase();document.getElementById("fdList").innerHTML=FD.filter(function(x){return (x.n+x.c+x.f).toLowerCase().indexOf(q)>-1}).map(function(x){return card(x.n,x.f,'<span class="tag">'+x.c+', Utah</span>'+(x.g?'<span class="tag">Grants: '+x.g+'</span>':''),x.u?'<a href="'+x.u+'" rel="noopener">Application info</a>':'')}).join("")}
 function init(){
 if(live)document.querySelectorAll(".note").forEach(function(n){n.hidden=true});
 chips("resChips",uniq(RES.map(function(r){return r.c})),showRes);showRes("All");
 var sk=uniq([].concat.apply([],PPL.map(function(x){return x.s})));
 chips("skillChips",sk,showPpl);showPpl("All");
 showNp("");document.getElementById("npSearch").oninput=function(e){showNp(e.target.value)};
+showFd("");document.getElementById("fdSearch").oninput=function(e){showFd(e.target.value)};
 }
-Promise.all([get("resources?select=*&order=title"),get("helpers_public?select=*"),get("nonprofits?select=*&order=name")]).then(function(a){
+Promise.all([get("resources?select=*&order=title"),get("helpers_public?select=*"),get("nonprofits?select=*&order=name"),get("foundations?select=*&order=name")]).then(function(a){
 RES=a[0].map(function(r){return{t:esc(r.title),c:esc(r.category),d:esc(r.description),u:/^https?:\/\//.test(r.url||"")?esc(r.url):""}});
 PPL=a[1].map(function(h){return{n:esc(h.name),r:h.helper_type==="volunteer"?"Volunteer":"Consultant",s:(h.skills||[]).map(esc),d:esc(h.bio),p:h.hourly_rate?"$"+esc(h.hourly_rate)+" per hour":"Free"}});
 NP=a[2].map(function(n){return{n:esc(n.name),c:esc(n.city||"Utah"),k:esc(n.focus_area),m:esc(n.mission)}});
+FD=a[3].map(function(f){var l=f.application_url||f.website||"";return{n:esc(f.name),c:esc(f.city||"Utah"),f:esc(f.giving_focus),g:rng(f.typical_grant_min,f.typical_grant_max),u:/^https?:\/\//.test(l)?esc(l):""}});
 live=true}).catch(function(){}).then(init);
 document.getElementById("consultForm").onsubmit=function(e){e.preventDefault();var f=this,d=new FormData(f);document.getElementById("err").hidden=true;
 sb("consult_requests",{method:"POST",headers:{"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({org_name:d.get("org"),email:d.get("email"),need:d.get("need"),description:d.get("desc")})}).then(function(r){if(!r.ok)throw 0;f.hidden=true;document.getElementById("thanks").hidden=false}).catch(function(){document.getElementById("err").hidden=false})};
