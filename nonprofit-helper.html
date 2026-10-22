@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nonprofit Helper: free resources and skilled help for Utah nonprofits</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f6f6;--surface:#fff;--ink:#14262a;--muted:#4d6266;--brand:#0f5c63;--brand-ink:#fff;--accent:#f0b429;--line:#d3dfe0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a1c;--surface:#16282b;--ink:#e8f1f1;--muted:#9fb5b8;--brand:#5cc3cc;--brand-ink:#0e1a1c;--line:#27403f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1a1c;--surface:#16282b;--ink:#e8f1f1;--muted:#9fb5b8;--brand:#5cc3cc;--brand-ink:#0e1a1c;--line:#27403f;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.05rem/1.6 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0 0 .5em}
+a{color:var(--brand)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;flex-wrap:wrap}
+.logo{font:800 1.3rem "Bricolage Grotesque",sans-serif;color:var(--ink);text-decoration:none}
+nav a{margin-left:18px;color:var(--ink);text-decoration:none;font-weight:600}
+nav a:hover{color:var(--brand)}
+.hero{padding:56px 0 64px}
+.hero h1{font-size:clamp(2.4rem,6vw,4.4rem);font-weight:800;max-width:15ch}
+.hero p{font-size:1.25rem;max-width:56ch;color:var(--muted)}
+.btn{display:inline-block;background:var(--brand);color:var(--brand-ink);border:0;border-radius:8px;padding:12px 22px;font:600 1rem "Source Sans 3",sans-serif;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:2px solid var(--ink);margin-left:10px}
+.hero .btns{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}.hero .btn.alt{margin-left:0}
+section{padding:52px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(1.8rem,4vw,2.5rem)}
+.lead{color:var(--muted);max-width:60ch;margin-bottom:24px}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:28px}
+.three h3{font-size:1.25rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 14px;font:600 .95rem "Source Sans 3",sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.item h3{font-size:1.1rem;margin-bottom:.3em}
+.item p{margin:.2em 0 .6em;color:var(--muted);font-size:.97rem}
+.tag{display:inline-block;font-size:.82rem;font-weight:600;background:var(--bg);border-radius:6px;padding:2px 8px;margin:0 6px 6px 0}
+.rate{border-left:4px solid var(--accent);padding-left:10px;font-weight:600;font-size:.9rem}
+.note{font-size:.9rem;color:var(--muted);margin-top:18px}
+form{display:grid;gap:14px;max-width:560px}
+label{font-weight:600;display:grid;gap:4px}
+input,select,textarea{font:inherit;padding:10px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.ok{background:var(--surface);border-left:5px solid var(--brand);padding:14px 18px;border-radius:8px;max-width:560px}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);font-size:.95rem}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.hero.panel{position:relative;overflow:hidden;border-radius:16px;margin-top:6px;padding:64px 32px 190px;background:linear-gradient(180deg,#0a3d43 0%,#0f5c63 55%,#3b9aa0 100%);color:#fff}
+.hero.panel h1{color:#fff}.hero.panel p{color:#dcecec}
+.hero.panel .btn{background:var(--accent);color:#14262a}.hero.panel .btn.alt{background:transparent;color:#fff;border:2px solid #fff}
+.hero.panel svg{position:absolute;left:0;bottom:0;width:100%;height:170px}
+.hero.panel .btns,.hero.panel h1,.hero.panel p{position:relative;z-index:1}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.tile{min-height:120px;border:0;border-radius:12px;padding:14px;text-align:left;color:#fff;font:800 1.1rem "Bricolage Grotesque",sans-serif;cursor:pointer;display:flex;align-items:flex-end;text-shadow:0 1px 4px rgba(0,0,0,.45);outline-offset:3px}
+.tile[aria-pressed="true"]{outline:3px solid var(--accent)}
+.t1{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#6fb98f,#1f6f5c)}
+.t2{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#ffd27a,#e0873a)}
+.t3{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#8fd3d6,#3a7f94)}
+.t4{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#a9b3c4,#566478)}
+.t5{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#e6a98a,#a9553a)}
+.t6{background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.35)),linear-gradient(160deg,#c9b2e0,#6d5a9a)}
+.scene{border-radius:14px;overflow:hidden;height:120px;margin-top:40px}.scene svg{display:block;width:100%;height:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <a class="logo" href="#top">Nonprofit Helper</a>
+  <nav aria-label="Main"><a href="#resources">Free resources</a><a href="#help">Your helper</a><a href="#directory">Nonprofit directory</a><a href="#consult">Book a free consultation</a></nav>
+</header>
+
+<main id="top">
+<div class="hero panel">
+  <svg viewBox="0 0 1000 170" preserveAspectRatio="none" aria-hidden="true"><path d="M0 120 L90 80 L150 80 L210 110 L300 60 L380 60 L440 100 L540 70 L640 70 L700 105 L800 55 L880 55 L940 90 L1000 75 V170 H0Z" fill="#2f8a90" opacity=".7"/><path d="M0 140 L60 110 L170 110 L230 135 L330 100 L420 100 L470 130 L590 105 L690 105 L760 135 L860 98 L960 98 L1000 120 V170 H0Z" fill="#b5623e"/><path d="M0 170 V150 L120 148 L200 150 L260 148 Q300 70 340 148 L520 150 L620 148 Q660 100 700 148 L860 150 L1000 148 V170Z" fill="#0a3d43"/></svg>
+  <h1>Less paperwork. More mission.</h1>
+  <p>Admin and fundraising eat hours every week at every nonprofit. We share free tools and connect you with skilled volunteers and consultants, so your team can get back to the mission.</p>
+  <div class="btns"><a class="btn" href="#consult">Book a free consultation</a><a class="btn alt" href="#resources">Browse free resources</a></div>
+</div>
+
+<section id="how">
+  <h2>How we give your team time back</h2>
+  <div class="three">
+    <div><h3>Start with free resources</h3><p>Guides and tools for governance, finance, fundraising, marketing, technology and more. We check and refresh them every quarter.</p></div>
+    <div><h3>Meet a helper for free</h3><p>Volunteers and consultants offer a free first hour. They point out quick wins and bigger projects worth tackling.</p></div>
+    <div><h3>Hire only if it fits</h3><p>No obligation. Consultants set their own rates. Nonprofit Helper itself earns nothing.</p></div>
+  </div>
+</section>
+
+<div class="scene" role="img" aria-label="A Utah river lined with cottonwood trees"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1000" height="120" fill="#d6ecea"/><path d="M0 70 L120 40 L240 62 L380 30 L520 58 L700 28 L860 54 L1000 36 V120 H0Z" fill="#9cc7bf"/><rect y="78" width="1000" height="42" fill="#5f9e78"/><path d="M0 100 Q250 80 500 98 T1000 92 V110 Q750 118 500 108 T0 112Z" fill="#7fc3cc"/><g fill="#3f8a5c"><circle cx="120" cy="66" r="18"/><circle cx="170" cy="60" r="22"/><circle cx="780" cy="64" r="20"/><circle cx="840" cy="68" r="16"/></g><g fill="#6b4a2f"><rect x="118" y="80" width="4" height="12"/><rect x="168" y="78" width="4" height="14"/><rect x="778" y="80" width="4" height="12"/><rect x="838" y="82" width="4" height="10"/></g></svg></div>
+<section id="resources">
+  <h2>Free resources</h2>
+  <p class="lead">Every link is free to use. Pick a topic to narrow the list.</p>
+  <div class="chips" id="resChips" role="group" aria-label="Resource topics"></div>
+  <div class="list" id="resList"></div>
+  <p class="note">Sample entries shown. The live library is refreshed every quarter.</p>
+</section>
+
+<div class="scene" role="img" aria-label="A swing set on a red rock mesa at sunrise"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6c97a"/><stop offset="1" stop-color="#f7ead4"/></linearGradient></defs><rect width="1000" height="120" fill="url(#dawn)"/><circle cx="700" cy="70" r="26" fill="#fff3c9"/><path d="M0 90 L80 60 L260 60 L320 90 L520 82 L560 50 L700 50 L760 84 L1000 70 V120 H0Z" fill="#c9714a"/><rect y="98" width="1000" height="22" fill="#a9553a"/><g stroke="#3a2a22" stroke-width="3" fill="none"><path d="M180 98 L200 52 L240 52 L260 98"/><path d="M212 52 V80 M228 52 V80"/></g><rect x="208" y="80" width="24" height="4" fill="#3a2a22"/></svg></div>
+<section id="help">
+  <h2>Your helper</h2>
+  <p class="lead">Filter by the skill you need. Volunteers are free; consultants list their rates up front.</p>
+  <div class="chips" id="skillChips" role="group" aria-label="Skills"></div>
+  <div class="list" id="helpList"></div>
+  <p class="note">Sample profiles shown.</p>
+</section>
+
+<div class="scene" role="img" aria-label="A small Utah town with a steeple and a domed hall below snowy mountains"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="1000" height="120" fill="#e4dcee"/><path d="M0 70 L150 20 L300 60 L450 15 L620 62 L780 22 L1000 60 V120 H0Z" fill="#8d83ae"/><path d="M150 20 L128 38 L150 34 L172 38Z M450 15 L428 34 L450 30 L472 34Z M780 22 L758 40 L780 36 L802 40Z" fill="#fff"/><rect y="88" width="1000" height="32" fill="#5a5378"/><g fill="#3d3857"><rect x="120" y="76" width="40" height="14"/><rect x="200" y="72" width="36" height="18"/><rect x="560" y="76" width="44" height="14"/><rect x="660" y="74" width="40" height="16"/><rect x="380" y="60" width="10" height="30"/><path d="M375 60 L385 40 L395 60Z"/><rect x="440" y="70" width="60" height="20"/><path d="M450 70 A20 20 0 0 1 490 70Z"/></g></svg></div>
+<section id="directory">
+  <h2>Utah nonprofit directory</h2>
+  <p class="lead">Search by name or city. Leaders can claim their page to keep details current.</p>
+  <form onsubmit="return false" style="margin-bottom:20px"><label>Search<input id="npSearch" type="search" placeholder="Name or city"></label></form>
+  <div class="list" id="npList"></div>
+  <p class="note">Sample listings shown.</p>
+</section>
+
+<div class="scene" role="img" aria-label="A winding trail with a bench facing a sunrise over the mountains"><svg viewBox="0 0 1000 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="trl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd3d6"/><stop offset="1" stop-color="#f7e3b0"/></linearGradient></defs><rect width="1000" height="120" fill="url(#trl)"/><path d="M0 80 L180 40 L320 70 L520 30 L700 66 L860 44 L1000 70 V120 H0Z" fill="#4f9aa0"/><rect y="84" width="1000" height="36" fill="#7aa86b"/><path d="M420 120 Q520 100 470 92 Q420 86 540 84 L560 84 Q470 90 520 98 Q580 106 520 120Z" fill="#efe1c0"/><g fill="#3a2a22"><rect x="700" y="90" width="30" height="4"/><rect x="702" y="94" width="3" height="6"/><rect x="725" y="94" width="3" height="6"/><rect x="700" y="82" width="30" height="3"/></g></svg></div>
+<section id="consult">
+  <h2>Book a free consultation</h2>
+  <p class="lead">Tell us what is slowing your team down. We will match you with up to three helpers.</p>
+  <form id="consultForm">
+    <label>Nonprofit name<input name="org" required></label>
+    <label>Your email<input name="email" type="email" required></label>
+    <label>What do you need most?
+      <select name="need"><option>Governance</option><option>Finance</option><option>Fundraising</option><option>Marketing</option><option>Technology</option><option>Not sure yet</option></select></label>
+    <label>Short description<textarea name="desc" rows="3"></textarea></label>
+    <button class="btn" type="submit">Request my free consult</button>
+  </form>
+  <div class="ok" id="thanks" hidden role="status"><strong>Request received.</strong> This is a demo form, so nothing was sent yet. Once the database is connected, a match will arrive by email.</div>
+</section>
+</main>
+
+<footer>Nonprofit Helper is a free community resource for Utah nonprofits. Consultants may charge for their services; Nonprofit Helper does not.</footer>
+</div>
+
+<script>
+var RES=[
+{t:"Board governance starter kit",c:"Governance",d:"Bylaws samples, conflict-of-interest policy and meeting minute templates."},
+{t:"Annual compliance calendar",c:"Governance",d:"Federal and Utah filing deadlines in one place."},
+{t:"Simple nonprofit budget template",c:"Finance",d:"A spreadsheet that tracks restricted and unrestricted funds."},
+{t:"Free accounting software programs",c:"Finance",d:"Discounted and donated tools for small organizations."},
+{t:"Grant writing basics",c:"Fundraising",d:"How to find funders and write a strong first proposal."},
+{t:"Donor thank-you letter library",c:"Fundraising",d:"Ready-to-edit letters for every gift size."},
+{t:"Client intake and tracking tools",c:"Client management",d:"Free ways to track the people you serve without a big database."},
+{t:"One-page marketing plan",c:"Marketing",d:"Plan a year of outreach in an afternoon."},
+{t:"Build a nonprofit website for free",c:"Website building",d:"Step-by-step guide using no-cost site builders."},
+{t:"Social media content calendar",c:"Social media",d:"Post ideas by month with caption templates."},
+{t:"Nonprofit tech discounts",c:"Technology",d:"Where to get free or reduced-price software and hardware."}];
+var PPL=[
+{n:"Maria L.",r:"Volunteer",s:["Finance","Governance"],d:"Retired CPA. Helps with budgets, audits and board finance reports.",p:"Free"},
+{n:"Dev Patel",r:"Consultant",s:["Technology","Website building"],d:"Builds websites and sets up donor databases.",p:"$75 per hour"},
+{n:"Karen Whitfield",r:"Consultant",s:["Fundraising","Marketing"],d:"Twelve years in development at Utah health nonprofits.",p:"$90 per hour"},
+{n:"Josh Tanner",r:"Volunteer",s:["Social media","Marketing"],d:"Marketing student who runs content calendars and design.",p:"Free"},
+{n:"Alana Reyes",r:"Consultant",s:["Governance","Client management"],d:"Board training and program evaluation.",p:"$85 per hour"}];
+var NP=[
+{n:"Red Rock Food Pantry",c:"St. George",k:"Poverty and basic needs",m:"Food assistance for families in Washington County."},
+{n:"Wasatch Youth Mentors",c:"Salt Lake City",k:"Children and youth",m:"One-on-one mentoring for middle school students."},
+{n:"Bear River Watershed Group",c:"Logan",k:"Environment",m:"River cleanups and habitat restoration."},
+{n:"Canyon Country Literacy",c:"Moab",k:"Children and youth",m:"Reading and English classes for all ages."},
+{n:"Open Door Counseling",c:"Provo",k:"Health and mental health",m:"Low-cost therapy and crisis support."},
+{n:"Utah Civic Forum",c:"Salt Lake City",k:"Civic and advocacy",m:"Nonpartisan voter education and community organizing."},
+{n:"Hope Fellowship Outreach",c:"Ogden",k:"Faith-based",m:"Congregation-led meals and neighbor assistance."}];
+var kindF="All",qF="";
+function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i})}
+function chips(id,vals,cb){var el=document.getElementById(id);var cur="All";
+ function draw(){el.innerHTML="";["All"].concat(vals).forEach(function(v){var b=document.createElement("button");b.className="chip";b.type="button";b.textContent=v;b.setAttribute("aria-pressed",v===cur);b.onclick=function(){cur=v;draw();cb(v)};el.appendChild(b)})}
+ draw()}
+function card(h,p,tags,extra){return '<div class="item"><h3>'+h+'</h3><p>'+p+'</p>'+(tags||"")+(extra||"")+'</div>'}
+function showRes(f){document.getElementById("resList").innerHTML=RES.filter(function(r){return f==="All"||r.c===f}).map(function(r){return card(r.t,r.d,'<span class="tag">'+r.c+'</span>')}).join("")}
+function showPpl(f){document.getElementById("helpList").innerHTML=PPL.filter(function(x){return f==="All"||x.s.indexOf(f)>-1}).map(function(x){return card(x.n+" ("+x.r+")",x.d,x.s.map(function(s){return '<span class="tag">'+s+'</span>'}).join(""),'<div class="rate">'+x.p+'</div>')}).join("")}
+function showNp(q){qF=q;q=q.toLowerCase();document.getElementById("npList").innerHTML=NP.filter(function(x){return (kindF==="All"||x.k===kindF)&&(x.n+x.c).toLowerCase().indexOf(q)>-1}).map(function(x){return card(x.n,x.m,'<span class="tag">'+x.c+', Utah</span>','<a href="#consult">Claim this page</a>')}).join("")||'<p>No nonprofits match that search. Try a different name or city.</p>'}
+chips("resChips",uniq(RES.map(function(r){return r.c})),showRes);showRes("All");
+var sk=uniq([].concat.apply([],PPL.map(function(x){return x.s})));
+chips("skillChips",sk,showPpl);showPpl("All");
+showNp("");document.getElementById("npSearch").oninput=function(e){showNp(e.target.value)};
+document.getElementById("consultForm").onsubmit=function(e){e.preventDefault();this.hidden=true;document.getElementById("thanks").hidden=false};
+</script>
+</body>
+</html>
